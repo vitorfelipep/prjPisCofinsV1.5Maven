@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ExcelPisCofisCompetencia" pageWidth="1200" pageHeight="595" orientation="Landscape" columnWidth="1160" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="236432b0-118e-4b80-82f6-d8537caa731b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="230"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dataInicial" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dataFinal" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT NF.*,
+(SELECT MAX(MCR.DATMOV)
+            FROM E301MCR MCR
+      INNER JOIN E301TCR TCR ON (TCR.CODEMP = MCR.CODEMP
+                             AND TCR.CODFIL = MCR.CODFIL
+                             AND TCR.CODTPT = MCR.CODTPT
+                             AND TCR.NUMTIT = MCR.NUMTIT)
+      INNER JOIN E001TNS TNS ON (TNS.CODEMP = MCR.CODEMP
+                             AND TNS.CODTNS = MCR.CODTNS
+                             AND TNS.RECTPB = 'PG')
+           WHERE TCR.SITTIT = 'LQ'
+             AND TCR.CODEMP = "EMP."
+             AND TCR.FILNFV = "FIL."
+             AND TCR.CODSNF = "SÉRIE"
+             AND TCR.NUMNFV = "NF.") AS "DT.REC.",
+(SELECT SUM(MCR.VLRMOV)
+            FROM E301MCR MCR
+      INNER JOIN E301TCR TCR ON (TCR.CODEMP = MCR.CODEMP
+                             AND TCR.CODFIL = MCR.CODFIL
+                             AND TCR.CODTPT = MCR.CODTPT
+                             AND TCR.NUMTIT = MCR.NUMTIT)
+      INNER JOIN E001TNS TNS ON (TNS.CODEMP = MCR.CODEMP
+                             AND TNS.CODTNS = MCR.CODTNS
+                             AND TNS.RECTPB = 'PG')
+           WHERE TCR.SITTIT = 'LQ'
+             AND TCR.CODEMP = "EMP."
+             AND TCR.FILNFV = "FIL."
+             AND TCR.CODSNF = "SÉRIE"
+             AND TCR.NUMNFV = "NF.") AS "VL.REC."
+FROM
+     (SELECT NFV.CODEMP AS "EMP.",
+             NFV.CODFIL AS "FIL.",
+             NFV.NUMNFI AS "NF.",
+             NFV.CODSNF AS "SÉRIE",
+             NFV.NOPOPE AS "CFOP",
+             NFV.CODTNS AS "TRANS.",
+             NFV.CODCLI AS "CLI.",
+             CLI.APECLI AS "CLIENTE",
+         SUM(NFV.VLRPIF) AS "PIS",
+         SUM(NFV.VLRCFF) AS "COFINS",
+         SUM(NFV.VLRCTB) AS "VL.CONT.",
+         SUM(NFV.VLRIRF) AS "RET.IRRF",
+         SUM(NFV.VLRCSL) AS "RET.CSLL",
+         SUM(NFV.VLRPIT) AS "RET.PIS",
+         SUM(NFV.VLRCRT) AS "RET.COFINS"
+        FROM E660NFV NFV
+  INNER JOIN E085CLI CLI ON (NFV.CODCLI = CLI.CODCLI)
+       WHERE EXISTS (SELECT 1
+                       FROM E301MCR MCR
+                 INNER JOIN E301TCR TCR ON (TCR.CODEMP = MCR.CODEMP
+                                        AND TCR.CODFIL = MCR.CODFIL
+                                        AND TCR.CODTPT = MCR.CODTPT
+                                        AND TCR.NUMTIT = MCR.NUMTIT)
+                 INNER JOIN E001TNS TNS ON (TNS.CODEMP = MCR.CODEMP
+                                        AND TNS.CODTNS = MCR.CODTNS
+                                        AND TNS.RECTPB = 'PG')
+                      WHERE TCR.SITTIT = 'LQ'
+                        AND TCR.CODEMP = NFV.CODEMP
+                        AND TCR.FILNFV = NFV.CODFIL
+                        AND TCR.CODSNF = NFV.CODSNF
+                        AND TCR.NUMNFV = NFV.NUMNFI
+                        AND MCR.DATMOV BETWEEN $P{dataInicial} AND $P{dataFinal})
+         AND CLI.TIPEMC = 2 -- TIPO DE EMPRESA PÚBLICA
+    GROUP BY NFV.CODEMP,
+             NFV.CODFIL,
+             NFV.NUMNFI,
+             NFV.CODSNF,
+             NFV.NOPOPE,
+             NFV.CODTNS,
+             NFV.CODCLI,
+             CLI.APECLI
+    ORDER BY NFV.CODEMP,
+             NFV.CODFIL,
+             NFV.NUMNFI) NF]]>
+	</queryString>
+	<field name="EMP." class="java.math.BigDecimal"/>
+	<field name="FIL." class="java.math.BigDecimal"/>
+	<field name="NF." class="java.math.BigDecimal"/>
+	<field name="SÉRIE" class="java.lang.String"/>
+	<field name="CFOP" class="java.lang.String"/>
+	<field name="TRANS." class="java.lang.String"/>
+	<field name="CLI." class="java.math.BigDecimal"/>
+	<field name="CLIENTE" class="java.lang.String"/>
+	<field name="PIS" class="java.math.BigDecimal"/>
+	<field name="COFINS" class="java.math.BigDecimal"/>
+	<field name="VL.CONT." class="java.math.BigDecimal"/>
+	<field name="RET.IRRF" class="java.math.BigDecimal"/>
+	<field name="RET.CSLL" class="java.math.BigDecimal"/>
+	<field name="RET.PIS" class="java.math.BigDecimal"/>
+	<field name="RET.COFINS" class="java.math.BigDecimal"/>
+	<field name="DT.REC." class="java.sql.Timestamp"/>
+	<field name="VL.REC." class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="-19" y="0" width="50" height="21" uuid="9256f5e2-e200-455a-b4e1-7e48aacd78fc"/>
+				<text><![CDATA[EMP.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="0" width="38" height="21" uuid="96189f89-fd75-43f2-9bf8-504dff2850d3"/>
+				<text><![CDATA[FIL.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="69" y="0" width="49" height="21" uuid="9f8923c0-4403-4138-a7ee-4d6f5bf8ec86"/>
+				<text><![CDATA[NF.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="118" y="0" width="62" height="21" uuid="3998fa15-4136-45a0-b4e6-28cadccd73e6"/>
+				<text><![CDATA[SÉRIE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="0" width="53" height="21" uuid="37e8426d-a254-473d-80cc-19f859c1a1a8"/>
+				<text><![CDATA[CFOP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="0" width="52" height="21" uuid="6044c53c-eb9b-46ab-9567-2562666db5ce"/>
+				<text><![CDATA[TRANS.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="0" width="45" height="21" uuid="3e295bde-ad66-4f34-8e38-d76815eeeb8d"/>
+				<text><![CDATA[CLI.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="535" y="0" width="64" height="21" uuid="8f4b829d-3ef4-4567-86c2-4b89c495ac1b"/>
+				<text><![CDATA[PIS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="599" y="0" width="67" height="21" uuid="268b690a-05f8-4147-8d98-8e60ddaec926"/>
+				<text><![CDATA[COFINS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="666" y="0" width="77" height="21" uuid="7b5a852f-dea7-454f-8895-a0f7cf02ceac"/>
+				<text><![CDATA[VL.CONT.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="743" y="0" width="64" height="21" uuid="f7cf0869-e9a8-48dc-9e93-518dfec1f6f5"/>
+				<text><![CDATA[RET.IRRF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="807" y="0" width="71" height="21" uuid="49d7a3eb-2515-4ac2-9d5e-65f57a417488"/>
+				<text><![CDATA[RET.CSLL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="878" y="0" width="56" height="21" uuid="21649eab-cd79-4a14-8ebd-3a3e42eaad6c"/>
+				<text><![CDATA[RET.PIS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="934" y="0" width="83" height="21" uuid="4abe3ed6-04a0-4bfa-8d36-5c7b9af52f08"/>
+				<text><![CDATA[RET.COFINS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1017" y="0" width="67" height="21" uuid="e6ea2f01-461c-400e-9d39-2174691417ef"/>
+				<text><![CDATA[DT.REC.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1084" y="0" width="88" height="21" uuid="55178ad3-3f07-4282-b114-a69b8f86c248"/>
+				<text><![CDATA[VL.REC.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="0" width="205" height="21" uuid="e7218516-54db-4176-954e-f3b4428a3b9f"/>
+				<text><![CDATA[CLIENTE]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="330" y="-1" width="205" height="20" uuid="3ff68863-d8fd-4f6f-87b1-5e07219d840d"/>
+				<textFieldExpression><![CDATA[$F{CLIENTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1084" y="-1" width="88" height="20" uuid="1cf46686-432e-4e11-99c4-7b0bf7c11143"/>
+				<textFieldExpression><![CDATA[$F{VL.REC.}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="934" y="-1" width="83" height="20" uuid="b15d731d-4413-470f-9d64-fc0a424edef7"/>
+				<textFieldExpression><![CDATA[$F{RET.COFINS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="878" y="-1" width="56" height="20" uuid="ee369d9a-28a9-440b-925b-45f665da11ac"/>
+				<textFieldExpression><![CDATA[$F{RET.PIS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-19" y="-1" width="50" height="20" uuid="47b0db75-e882-43aa-972c-8391ae370f1d"/>
+				<textFieldExpression><![CDATA[$F{EMP.}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="-1" width="38" height="20" uuid="b1ccc206-d0e9-4fb9-8ef0-888f2dc49f62"/>
+				<textFieldExpression><![CDATA[$F{FIL.}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="69" y="-1" width="49" height="20" uuid="164eb3e1-77b0-4266-a499-6adcb89dd4e2"/>
+				<textFieldExpression><![CDATA[$F{NF.}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="118" y="-1" width="62" height="20" uuid="afad286c-e775-4cf2-8833-fc6f2206064a"/>
+				<textFieldExpression><![CDATA[$F{SÉRIE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="-1" width="53" height="20" uuid="ed05d8ec-aaf0-4f80-adc4-f9158d773065"/>
+				<textFieldExpression><![CDATA[$F{CFOP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="233" y="-1" width="52" height="20" uuid="5f043236-45b7-4dab-93d1-f7fc491a549c"/>
+				<textFieldExpression><![CDATA[$F{TRANS.}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="285" y="-1" width="45" height="20" uuid="3475ba02-e471-4cb7-9cb3-a875db3bb8b5"/>
+				<textFieldExpression><![CDATA[$F{CLI.}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="535" y="-1" width="64" height="20" uuid="95c0f8f6-6cf5-4776-8608-6a72fd935b38"/>
+				<textFieldExpression><![CDATA[$F{PIS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="599" y="-1" width="67" height="20" uuid="2baeb78c-868d-429a-9dbe-03ecfcfa84bd"/>
+				<textFieldExpression><![CDATA[$F{COFINS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="666" y="-1" width="77" height="20" uuid="74be14f6-fd00-4c7c-8b91-781cbeef5a16"/>
+				<textFieldExpression><![CDATA[$F{VL.CONT.}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="743" y="-1" width="64" height="20" uuid="2161d80d-385f-449c-8ecf-c446bbd02d50"/>
+				<textFieldExpression><![CDATA[$F{RET.IRRF}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="807" y="-1" width="71" height="20" uuid="9ba3eed6-b269-4f50-b1bc-21a1efe4f891"/>
+				<textFieldExpression><![CDATA[$F{RET.CSLL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1017" y="-1" width="67" height="20" uuid="a3095781-e5cf-4128-af19-019c0bf0d599"/>
+				<textFieldExpression><![CDATA[$F{DT.REC.}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,348 @@
+body{
+	background-image : URL(imagens/bckg.jpg);
+	height:0 auto;
+	width:90%;
+}
+
+#panelRelatorio{
+
+	width:55%;
+	margin-top:15%;
+	margin-left:29%;
+	
+}
+
+.ui-panelgrid-content ui-widget-content ui-grid ui-grid-responsive{
+	border:none;
+}
+
+.ui-grid-row{
+	width:658px !important;
+}
+
+.datePickerInicial{
+	margin-left:0px  !important;
+}
+
+.datepickerFinal{
+	margin-left:0px !important;
+}
+
+.nameForAdvanced{
+	margin-left:45px !important;
+}
+
+.codFiltroSelect{
+	margin-left:0px !important;
+}
+
+.oneRadioOpcoes{
+	margin-left:0px !important;
+}
+
+.checkBoxSimples{
+	margin-left: 50px !important;
+}
+
+
+
+
+#modal{
+	width:600px;
+}
+
+#btnPesquisar{
+	left:-85px;px;
+}
+
+#advanced{
+	width:195px;
+	margin-left: 40px;
+}
+
+#iconBuscar{
+	margin-left:-85px;
+}
+
+#ajax{
+	margin-left:-60px;
+}
+
+#proPesq{
+	text-transform:uppercase; 
+	margin-left:-42px;
+}
+
+#btnProcessar{
+	position: absolute;
+	margin-left: 90%;
+}
+
+#selectCodpro{
+	width: 75%;
+}
+
+.ui-grid{  
+   border: none !important;"   
+}  
+
+.semBorda{
+	  width:100%;  
+}
+
+.semBorda tr, .semBorda td{
+ 	border: 1px solid #c0c0c0 !important; 
+}
+@media (max-width: 800px) {
+	#panelRelatorio{
+
+		width:70%;
+		margin-top:18%;
+		margin-left:18%;
+	
+		
+	}
+	
+	.ui-grid-row{
+		width:100% !important;
+	}
+	.datePickerInicial{
+		margin-left:1px !important;
+	}
+	
+	.datepickerFinal{
+		margin-left:0px   !important;
+	}
+	
+	.nameForAdvanced{
+		margin-left:0px   !important;
+	}
+	
+	.codFiltroSelect{
+		margin-left:20px!important;
+	}
+	
+	.oneRadioOpcoes{
+		margin-left:4px   !important;
+	}
+	
+	.checkBoxSimples{
+		margin-left:20px  !important;
+	}
+	
+}
+@media (max-width: 600px) {
+  	body{
+		background-image : URL(imagens/bckg.jpg);
+		height:0 auto;
+		width:100%;
+		margin-left:0px !important;
+	}
+	
+	#panelRelatorio{
+	
+		  width:98%; 
+		  border: 1px solid black;
+		  margin-left:0px;
+	
+	}
+	
+	.ui-grid-row{
+		width:70% !important;
+	}
+	
+	.datePickerInicial{
+		margin-left:1px !important;
+	}
+	
+	.datepickerFinal{
+		margin-left:1px   !important;
+	}
+	
+	.nameForAdvanced{
+		margin-left:1px   !important;
+	}
+	
+	.codFiltroSelect{
+		margin-left:1px   !important;
+	}
+	
+	.oneRadioOpcoes{
+		margin-left:1px   !important;
+	}
+
+	.checkBoxSimples{
+		margin-left:20px  !important;
+	}
+	
+	
+	.modalBusca
+	{
+		width:80% !important;
+	}
+	
+	.modalTabelaSelect
+	{
+		width:100% !important;
+	}
+	
+	#produto{
+		margin-left:-5px;
+	}
+	#btnPesquisar{
+		left:-5px;px;
+	}
+	
+	#advanced{
+		width:50%;
+		margin-left: -4px;
+	}
+	
+	#ajax{
+		margin-left:0px;
+	}
+
+	#proPesq{
+		text-transform:uppercase; 
+		margin-left:0px;
+	}
+	
+	input[type=text]{
+		width:75%;
+		display:block;
+	}
+	input[type=password]{
+		width:72%;
+		display:block;
+		margin-left:10px;
+	}
+	
+	#panelLogin{
+	
+	
+	/*top:50%;
+	left:50%;*/
+	width:75%;
+	margin-top:25%;
+	margin-left:15%;
+	display:block;
+	
+	
+	}
+
+}
+
+
+@media (max-width: 380px) {
+	
+	 	body{
+		background-image : URL(imagens/bckg.jpg);
+		height:0 auto;
+		width:100%;
+	}
+	
+	#panelRelatorio{
+	
+		 /* width: 100%;
+		  float: left;
+		  margin: 150px 0px;
+		  padding: 5px;
+		  height: o auto;
+		  border: 1px solid black;*/
+		  width:95%;
+		  display:block;
+		  margin-left:0px !important;
+	
+	}
+	.ui-grid-row{
+		width:100% !important;
+	}
+	
+	#ajax{
+		margin-left:0px;
+	}
+
+	#proPesq{
+		text-transform:uppercase; 
+		margin-left:0px;
+	}
+	
+	
+	input[type=text]{
+		width:75%;
+		display:block;
+	}
+	input[type=password]{
+		width:75%;
+		display:block;
+		/*margin-left:10px;*/
+	}
+	
+	#panelLogin
+	{
+	
+	
+	/*top:50%;
+	left:50%;*/
+	width:100%;
+	/*margin-top:25%;
+	margin-left:15%;*/
+	/*display:block;*/
+	
+	
+	}
+	/*id da tabela gerada pelo primeFaces*/
+	 #form:j_idt10
+	{
+		width:100%;
+	}
+	
+	.tabela{
+  	  /*margin-left: -15px;*/
+  	  display:block;
+	}
+	
+	
+	
+	.tabela {
+    display: block;
+   /* position: relative;*/
+    width: 100%;
+  }
+
+  .tabela thead,
+  .tabela tbody,
+  .tabela th,
+  .tabela td,
+  .tabela tr {
+    display: block;
+    border: none !important; 
+  }
+  
+  .tabela td,
+  .tabela th {
+    height: 35px;
+  }
+  
+  .tabela thead {
+    /*float: left;*/
+  }
+  
+  .tabela tbody {
+    width: auto;
+   	position: relative;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+  
+  .tabela tbody tr {
+    display: 
+    block;
+  }
+	#btnProcessar{
+/* 		position: absolute; */
+		margin-left: 45px;
+	}
+	
+}

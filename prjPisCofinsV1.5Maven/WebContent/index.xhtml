@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+<meta http-equiv="cache-control"   content="no-cache" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Relatório Pis Cofins - Masan</title>
+
+<!-- Icone -->
+<link rel="shortcut icon" href="imagens/masanIcon.png" type="image/x-icon" />
+
+<!-- Calendário -->
+<script type="text/javascript" src="js/locale-primefaces.js" />
+
+<!-- data Format -->
+<script type="text/javascript" src="js/dateFormart.js" />
+
+<!-- Folha de estilo -->
+ <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+</h:head>
+<h:body  style="background-image: URL(imagens/page_bg.jpg);">
+	<div class="ui-fluid">
+	<p:focus context="panelRelatorio"/>
+		<p:panel id="panelRelatorio" header="Consulta de Pis Cofins - Masan" toggleable="true" toggleOrientation="horizontal"  >
+			<h:form id="form" target="_blank">
+			
+				<!-- Componente das mensagens de validação do primeFaces -->
+				<p:growl id="msgLastname" showDetail="true" sticky="true" /> 
+				
+				<!-- Painel grid é a grid que comporta os campos do formulario -->
+ 				 <p:panelGrid   columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank" style="width:100%;" >
+					
+					<p:outputLabel for="dataInicial" value="Data Inicial:" />
+					<p:calendar id="dataInicial" effect="fold" value="#{filtroMB.filtro.dataInicial}" pattern="dd/MM/yyyy" locale="pt"  styleClass="datePickerInicial"  >
+						<f:validateLength minimum="6" /> 
+					</p:calendar>
+				
+					<p:outputLabel for="dataFinal" value="Data Final:"  />
+					<p:calendar id="dataFinal" effect="fold" value="#{filtroMB.filtro.dataFinal}" pattern="dd/MM/yyyy" locale="pt"  label="Data Final:"  styleClass="datepickerFinal" >
+						<f:validateLength minimum="2" />
+                           <p:ajax update="msgLastname" event="keyup" /> 
+					</p:calendar>
+				 
+			        <p:outputLabel for="opcoes" value="Opções:" />				 
+			        <p:selectOneRadio id="opcoes" value="#{filtroMB.filtro.opcao}"  layout="grid" columns="1" styleClass="oneRadioOpcoes" >			          
+			            <f:selectItem itemLabel="Pis Cofins por Competência" itemValue="1"/>
+			            <f:selectItem itemLabel="Pis Cofins por regime caixa" itemValue="2"/>
+			            <f:convertNumber integerOnly="true" />
+			        </p:selectOneRadio>
+
+				</p:panelGrid>
+				
+				<br />
+					<!-- Botões de comando -->
+					<p:commandButton value="Gerar PDF" id="btnProcessar" action="#{filtroMB.gerarPdf}" ajax="true" update="msgLastname" resetValues="true"   />
+					<p:commandButton value="Gerar Planilha" action="#{filtroMB.gerarExcel}" ajax="true" update="form" resetValues="true" />						
+				<br /><br />
+				
+				<!-- Mensagem em divs de erro e de validação! -->
+				
+			    <!-- <p:message for="dataInicial" style="display: none;"/> -->
+		 		<!--<p:messages id="msgs" /> -->
+				<!-- <p:message for="dataFinal" id="msgLastname"  style="display:none !important" /> -->
+				
+			</h:form>
+				
+			<!-- Carregando gifs de carregamento quando se aperta o botão enviar-->
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+			 
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+			    <p:graphicImage value="imagens/carregando.gif"  />
+			</p:dialog>
+	
+	</p:panel>
+	</div>
+</h:body>
+</html>
